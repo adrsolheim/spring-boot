@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>no.adrsolheim</groupId>
+		<artifactId>webapp</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<groupId>no.adrsolheim</groupId>
+	<artifactId>webapp-backend</artifactId>
+	<name>webapp-child-backend</name>
+	<description>Backend for adrsolheim.no webapp</description>
+
+	<properties>
+		<java.version>14</java.version>
+		<!-- need to specify maven compiler target and source? -->
+	</properties>
+
+	<dependencies>
+		<!-- need spring-boot-starter ? -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mariadb.jdbc</groupId>
+			<artifactId>mariadb-java-client</artifactId>
+		</dependency>
+
+		<!-- ADDS SUPPORT FOR REST ENDPOINTS TO MONITOR APPLICATION -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<!-- ALLOWS FOR AUTOMATIC RELOADING -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<!-- version 2.3.1 -->
+		</dependency>
+		<!-- FREE REST METHODS, NO NEED TO IMPLEMENT -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-rest</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<!-- need junit-vintage-engine eclusions? -->
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<!-- Copies the results of the frontend build process
+         from /frontend/target/dist to /backend/src/main/resources/public -->
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>Copy Vue.js frontend assets</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>src/main/resources/public</outputDirectory>
+              <overwrite>true</overwrite>
+              <resources>
+                <resource>
+                  <!-- Note: This is not the standard location for webpack to put the static files -->
+                  <!-- Paths in frontend/config/index.js is modified to reflect this -->
+                  <directory>${project.parent.basedir}/frontend/target/dist</directory>
+                  <includes>
+                    <include>static/</include>
+                    <include>index.html</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+			<!-- need maven-compiler-plugin? -->
+		</plugins>
+	</build>
+</project>

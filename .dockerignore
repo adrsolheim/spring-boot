@@ -1,0 +1,6 @@
+# exclude underlying OS specific node modules
+frontend/node*
+
+# pre-build output directories
+#frontend/target
+#backend/target 
